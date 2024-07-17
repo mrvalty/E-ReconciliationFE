@@ -11,12 +11,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './components/register/register.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
       closeButton:true,
     })
   ],
-  providers: [  ],
+  providers: [ DatePipe ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

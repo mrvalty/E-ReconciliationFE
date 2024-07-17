@@ -10,57 +10,72 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  providers:[AuthService]
+  providers: [AuthService]
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
 
-  loginModel:LoginModel
-  loginForm:FormGroup
-  isActiveButton:boolean = true
+  loginModel: LoginModel
+  loginForm: FormGroup
+  isActiveButton: boolean = true
+  email: string = "";
+  password: string = "";
+
+
   constructor(
 
-    private router:Router,
-    private authService:AuthService,
-    private formBuilder:FormBuilder,
-    private toastr:ToastrService
-  ){
+    private router: Router,
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
+  ) {
 
   }
   ngOnInit(): void {
- this.createLoginForm(); //oluşturulan methodları burda çağrılır.
+    this.createLoginForm(); //oluşturulan methodları burda çağrılır.
+    //console.log("email:" +this.email+ " - Password :" + this.password)
   }
-  createLoginForm(){
-this.loginForm = this.formBuilder.group({
-  email:["",(Validators.required)],
-  password:["",Validators.required]
-})
+  createLoginForm() {
+    this.loginForm = this.formBuilder.group({
+      email: ["", (Validators.required)],
+      password: ["", Validators.required]
+    })
   }
 
-  login(){
+  login() {
     //console.log('Login button clicked');
     if (this.loginForm.valid) {
       this.isActiveButton = false;
 
-            let  loginModel = Object.assign({},this.loginForm.value)
-            this.authService.login(loginModel).subscribe((res)=>{
-              //console.log(res);
+      let loginModel = Object.assign({}, this.loginForm.value)
+      this.authService.login(loginModel).subscribe((res) => {
+        //console.log(res);
 
-              if(this.authService.redirectUrl){
-                this.router.navigate([this.authService.redirectUrl])
-              }else{
-                this.router.navigate([""])
-              }
-              localStorage.setItem("token",res.data.token)
-              this.toastr.success(res.message,"Uyarı");
-            },(err)=>{
-              this.isActiveButton = true;
-              this.toastr.error(err.error);
+        if (this.authService.redirectUrl) {
+          this.router.navigate([this.authService.redirectUrl])
+        } else {
+          this.router.navigate([""])
+        }
+        localStorage.setItem("token", res.data.token)
+        this.toastr.success(res.message, "Uyarı");
+      }, (err) => {
+        this.isActiveButton = true;
+        this.toastr.error(err.error);
 
-            });
+      });
 
     }
-    else{
-      this.toastr.error("Eksik Bilgileri Doldurun!","Hata");
+    else {
+      this.toastr.error("Eksik Bilgileri Doldurun!", "Hata");
     }
+  }
+
+  changeInputClass(text: string) {
+
+    if (text != "") {
+      return "input-group input-group-outline my-3 is-valid"
+    } else {
+      return "input-group input-group-outline my-3 is-invalid"
+    }
+
   }
 }
