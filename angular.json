@@ -35,9 +35,20 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/nucleo-icons.css",
+              "src/assets/css/nucleo-svg.css",
+              "src/assets/css/material-dashboard.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/core/popper.min.js",
+            "src/assets/js/core/bootstrap.min.js",
+            "src/assets/js/plugins/perfect-scrollbar.min.js",
+            "src/assets/js/plugins/smooth-scrollbar.min.js",
+            "src/assets/js/plugins/chartjs.min.js",
+            "src/assets/js/material-dashboard.min.js"
+          ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -106,5 +117,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "5d9790b0-ac6f-4dcc-ba63-d6cefc7ca6f5"
   }
 }
