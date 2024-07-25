@@ -13,13 +13,15 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
 import { DatePipe } from '@angular/common';
+import { ConfirmComponent } from './components/register/confirm/confirm.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ConfirmComponent
   ],
   imports: [
     BrowserModule,

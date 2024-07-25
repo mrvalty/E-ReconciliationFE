@@ -5,6 +5,7 @@ import { SingleResponseModel } from '../models/singleResponseModel';
 import { TokenModel } from '../models/tokenModel';
 import { RegisterDto } from '../models/dtos/registerDto';
 import { TermsandCondition } from '../models/termsandCondition';
+import { ResponseModel } from '../models/responseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,12 @@ export class AuthService {
   getTermsandCondition(){
     let api = "https://localhost:7256/api/TermsandCondition/get";
     return this.httpClient.get<SingleResponseModel<TermsandCondition>>(api)
+  }
+
+  sendConfirmEmail(email:string){
+
+    let api = "https://localhost:7256/api/auth/sendConfirmEmail?email=" + email;
+    return this.httpClient.get<ResponseModel>(api)
+
   }
 }

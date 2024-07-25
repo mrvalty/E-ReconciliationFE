@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   isActiveButton: boolean = true
   email: string = "";
   password: string = "";
+  confirmEmail:string = "";
 
 
   constructor(
@@ -76,6 +77,19 @@ export class LoginComponent implements OnInit {
     } else {
       return "input-group input-group-outline my-3 is-invalid"
     }
+
+  }
+
+  sendMailConfirm(){
+
+    if(this.confirmEmail != ""){
+      this.authService.sendConfirmEmail(this.confirmEmail).subscribe((res) =>{
+        this.toastr.success(res.message)
+      },(err)=>{
+        this.toastr.error(err.error)
+      })
+    }
+    // alert("Onay Maili " + text + " mail adresine gönderildi.");
 
   }
 }

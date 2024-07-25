@@ -14,7 +14,8 @@
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <!-- Nucleo Icons -->
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
@@ -22,7 +23,42 @@
 </head>
 
 <body class="">
-  <main class="main-content  mt-0">
+  <main class="main-content mt-0" *ngIf="isRegisterComplete">
+    <section>
+      <div class="page-header min-vh-100">
+        <div class="container">
+          <div class="row">
+            <div
+              class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+              <div
+                class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
+                style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
+              <div class="card card-plain">
+                <div class="card-header">
+                  <h4 class="font-weight-bolder">Kayıt İşlemi Tamamlandı</h4>
+                </div>
+
+                <div class="card-body">
+                  <p>Hesabınızı aktif hale getirmek için <strong>mail adresinize iletilen aktivasyon linkini</strong> lütfen onaylayınız!</p>
+
+                </div>
+                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                  <p class="mb-2 text-sm mx-auto">
+                    Hesabın zaten var mı?
+                    <a href="/login" class="text-primary text-gradient font-weight-bold">Giriş Yap!</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <main class="main-content  mt-0" *ngIf="!isRegisterComplete">
     <section>
       <div class="page-header min-vh-100">
         <div class="container">
@@ -65,28 +101,43 @@
                     </div>
                     <div [class]="changeInputClass(address)">
                       <label class="form-label">Adres</label>
-                      <input type="email" formControlName="address" [(ngModel)]="address" class="form-control">
+                      <input type="text" formControlName="address" [(ngModel)]="address" class="form-control">
                     </div>
                     <div [class]="changeInputClass(taxDepartment)">
                       <label class="form-label">Vergi Dairesi</label>
-                      <input type="email" formControlName="taxDepartment" [(ngModel)]="taxDepartment" class="form-control">
+                      <input type="text" formControlName="taxDepartment" [(ngModel)]="taxDepartment" class="form-control">
                     </div>
                     <div [class]="changeInputClass(taxIdNumber)">
                       <label class="form-label">Vergi Numarası</label>
-                      <input type="email" formControlName="taxIdNumber" [(ngModel)]="taxIdNumber" class="form-control">
+                      <input type="text" formControlName="taxIdNumber" [(ngModel)]="taxIdNumber" class="form-control" maxlength="11">
                     </div>
                     <div [class]="changeInputClass(identifyNumber)">
                       <label class="form-label">T.C. Numarası</label>
-                      <input type="email" formControlName="identityNumber" [(ngModel)]="identifyNumber" class="form-control" maxlength="11">
+                      <input type="text" formControlName="identityNumber" [(ngModel)]="identifyNumber" class="form-control" maxlength="11">
                     </div>
+
                     <div class="form-check form-check-info text-start ps-0">
+                      <input class="form-check-input" type="checkbox" value="" [(ngModel)]="termsandConditionCheck"  [ngModelOptions]="{standalone: true}" id="flexCheckDefault" checked="">
                       <label class="form-check-label" for="flexCheckDefault">
-                        <a href="javascript:;" class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#exampleModal">Kullanıcı Sözleşmesi</a>
+                       <a class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#exampleModal">Kullanıcı Sözleşmesini Onaylıyorum</a>
                       </label>
                     </div>
+
+                    <!-- <div class="form-check form-check-info text-start ps-0">
+                      <label class="form-check-label" for="flexCheckDefault">
+                        <a href="javascript:;" class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#exampleModal">Kullanıcı Sözleşmesi</a>
+                        <p class="alert alert-danger">Sözleşme Onaylanmadı!</p>
+                      </label>
+                    </div> -->
                     <div class="text-center">
-                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" (click)="register()">Kayıt
+                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" (click)="register()" *ngIf="isRegisterActiveButton">Kayıt
                         Ol</button>
+                    </div>
+                    <div class="text-center">
+                      <button class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" *ngIf="!isRegisterActiveButton" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="sr-only">Kayıt Yapılıyor...</span>
+                      </button>
                     </div>
                   </form>
                 </div>
@@ -130,8 +181,7 @@
        <p [innerHTML]="termsandCondition.description"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn bg-gradient-primary">Save changes</button>
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Kapat</button>
       </div>
     </div>
   </div>
