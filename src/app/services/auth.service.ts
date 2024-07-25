@@ -45,4 +45,11 @@ export class AuthService {
     return this.httpClient.get<ResponseModel>(api)
 
   }
+
+  confirmUser(value:string){
+
+    let api = "https://localhost:7256/api/auth/confirmuser?value=" + value;
+    return this.httpClient.get<ResponseModel>(api)
+
+  }
 }

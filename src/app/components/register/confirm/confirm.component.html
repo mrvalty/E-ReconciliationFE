@@ -84,45 +84,37 @@
       style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container my-auto">
-        <div class="row">
+        <div class="row" *ngIf="!isActive">
+          <div class="form-group text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only"></span>
+            </div>
+            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+              <p class="text-white font-weight-bolder text-center mt-2 mb-0">İşleminiz devam ediyor lüften bekleyiniz...
+              </p>
+            </div>
+          </div>
+        </div>
 
+        <div class="row" *ngIf="isActive">
           <!-- Eğer mail onayı başarılıysa -->
-          <div class="col-lg-4 col-md-8 col-12 mx-auto" *ngIf="isSuccess">
-            <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                  <h6 class="text-white font-weight-bolder text-center mt-2 mb-0">Mail Adresiniz Başarıyla Onaylandı
-                    <br> Sisteme Giriş Yapabilirsiniz.</h6>
-
-
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <a href="/login" style="text-align: center;">Giriş Sayfasına Gitmek İçin Tıklayınız</a>
-                </div>
-              </div>
+          <div class="col-lg-8 col-md-8 col-12 mx-auto" *ngIf="isSuccess">
+            <div class="card z-index-0 fadeIn3 fadeInBottom text-center">
+              <h4 class="alert alert-success text-white">Başarılı</h4>
+              <h4>Mail onay işlemi başarıyla gerçekleşti sisteme giriş yapabilirsiniz</h4>
+              <hr>
+              <a href="/login" style="text-align: center;"><strong>Giriş Sayfasına Gitmek İçin Tıklayınız</strong></a>
             </div>
           </div>
           <!-- Eğer mail onayı başarısızsa -->
-          <div class="col-lg-4 col-md-8 col-12 mx-auto" *ngIf="!isSuccess">
-            <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                  <h6 class="text-white font-weight-bolder text-center mt-2 mb-0">Mail Adresiniz Başarıyla Onaylandı
-                    <br> Sisteme Giriş Yapabilirsiniz.</h6>
-
-
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <a href="/login" style="text-align: center;">Giriş Sayfasına Gitmek İçin Tıklayınız</a>
-                </div>
-              </div>
+          <div class="col-lg-8 col-md-8 col-12 mx-auto" *ngIf="!isSuccess">
+            <div class="card z-index-0 fadeIn3 fadeInBottom text-center">
+              <h4 class="alert alert-danger text-white">Uyarı!!!</h4>
+              <h4>{{message}}</h4>
+              <hr>
+              <a href="/login" style="text-align: center;"><strong>Giriş Sayfasına Gitmek İçin Tıklayınız</strong></a>
             </div>
           </div>
-
         </div>
       </div>
       <footer class="footer position-absolute bottom-2 py-2 w-100">

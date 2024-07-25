@@ -48,7 +48,8 @@ export class LoginComponent implements OnInit {
       this.isActiveButton = false;
 
       let loginModel = Object.assign({}, this.loginForm.value)
-      this.authService.login(loginModel).subscribe((res) => {
+      this.authService.login(loginModel).subscribe((res) =>
+      {
         //console.log(res);
 
         if (this.authService.redirectUrl) {
