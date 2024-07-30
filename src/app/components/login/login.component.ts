@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   confirmEmail:string = "";
 
 
+
   constructor(
 
     private router: Router,
@@ -93,4 +94,16 @@ export class LoginComponent implements OnInit {
     // alert("Onay Maili " + text + " mail adresine gönderildi.");
 
   }
+
+  sendForgotPasswordMail(){
+    if(this.confirmEmail != ""){
+      this.authService.sendForgotPassword(this.confirmEmail).subscribe((res) =>{
+        this.toastr.success(res.message)
+      },(err)=>{
+        this.toastr.error(err.error)
+      })
+    }
+
+  }
+
 }

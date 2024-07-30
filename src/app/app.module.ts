@@ -14,6 +14,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
 import { DatePipe } from '@angular/common';
 import { ConfirmComponent } from './components/register/confirm/confirm.component';
+import { ForgotPasswordComponent } from './components/login/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ConfirmComponent } from './components/register/confirm/confirm.componen
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

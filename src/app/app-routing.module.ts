@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { loginGuard } from './guards/login.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { ConfirmComponent } from './components/register/confirm/confirm.component';
+import { ForgotPasswordComponent } from './components/login/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent,canActivate:[loginGuard]},
@@ -12,6 +13,9 @@ const routes: Routes = [
   {path:'register',component:RegisterComponent},
   {path:'registerConfirm',component:LoginComponent},
   {path:'registerConfirm/:value',component:ConfirmComponent},
+  {path:'forgot-password/:value',component:ForgotPasswordComponent},
+  {path:'forgot-password',component:LoginComponent},
+
 
 
 ];
