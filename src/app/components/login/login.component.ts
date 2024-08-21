@@ -57,8 +57,10 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.authService.redirectUrl])
         } else {
           this.router.navigate([""])
+        }if(typeof window !== 'undefined'){
+          localStorage.setItem("token", res.data.token)
         }
-        localStorage.setItem("token", res.data.token)
+
         this.toastr.success(res.message, "Uyarı");
       }, (err) => {
         this.isActiveButton = true;

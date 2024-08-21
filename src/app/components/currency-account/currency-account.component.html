@@ -1,0 +1,273 @@
+<aside
+  class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+  id="sidenav-main">
+  <app-sidebar></app-sidebar>
+</aside>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  <app-nav></app-nav>
+  <!-- End Navbar -->
+  <!-- <input type="text" [(ngModel)]="test" #test>
+ böyle yaparsan isim çakışması yaşar ve kırmızı uyarı verir böyle bir şey var diyor. hangi dosyada bilmiyorum -->
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">Cari Liste</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="button-container"
+              style="display: flex; justify-content: flex-end; gap: 10px; padding-right: 15px;">
+              <div class="input-group input-group-outline mb-3" style="width: 20%;">
+                <label class="form-label">Ara</label>
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchString">
+              </div>
+              <button type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-toggle="modal"
+                data-bs-target="#addCurrencyAccountModal"><i class="material-icons opacity-10">add</i> Cari
+                Ekle</button>
+              <button type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-target="#addExcelModal" data-bs-toggle="modal">
+                <i class="material-icons opacity-10">add</i> Excel'den Cari Ekle</button>
+
+              <i class="material-icons opacity-10 excel-icon" title="Excel İndir"
+                style="margin: 10px; color: green;font-size: 25px;" (click)="exportExcel()">description</i>
+            </div>
+            <div class="table-responsive p-0">
+              <table id="excelTable" class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Cari Ad / Cari
+                      Kod / Adres</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Vergi Dairesi /
+                      Vergi Numarası / T.C.</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Mail</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Yetkili
+                      Kişi</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Eklenme
+                      Tarihi / Durumu</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">İşlem
+                    </th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let currency of currencyAccounts | currencyAccountPipes : searchString">
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{currency.name}}</h6>
+                          <h6 class="text-xs text-secondary mb-0">{{currency.code}}</h6>
+                          <h6 class="text-xs text-secondary mb-0">{{currency.address}}</h6>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm"><i class="text-danger">V.Dairesi:</i> {{currency.taxDepartment}}</h6>
+                          <h6 class="mb-0 text-sm"><i class="text-danger">V.Numarası:</i> {{currency.taxIdNumber}}</h6>
+                          <h6 class="mb-0 text-sm"><i class="text-danger">T.C.:</i> {{currency.identityNumber}}</h6>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="align-middle text-center text-sm">
+                      <span class="text-secondary text-xs font-weight-bold">{{currency.email}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">{{currency.authorized}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="text-xs text-secondary mb-0">{{currency.addedAt | date:'dd-MM-yyyy'}}</h6>
+                      <h6 class="text-xs text-secondary mb-0">{{currency.isActive? "Aktif":"Pasif"}}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <a href="javascript:;" style="margin-right: 3px;" class="btn btn-warning text-xs btn-sm mb-0"
+                        title="Güncelle" data-toggle="tooltip" data-original-title="Edit user"
+                        data-bs-target="#updateCurrencyAccountModal" data-bs-toggle="modal"
+                        (click)="getCurrencyAccount(currency.id)">
+                        <i class="material-icons opacity-10">edit</i>
+                      </a>
+                      <a href="javascript:;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
+                        data-original-title="Edit user" title="Sil" (click)="deleteInfo(currency)">
+                        <i class="material-icons opacity-10">restore_from_trash</i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Cari Ekleme Modal -->
+<div class="modal fade" id="addCurrencyAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalSignTitle">Cari Ekleme Formu</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="addedForm" role="form text-left">
+          <div [class]="changeInputClass(code)">
+            <label class="form-label">Cari Kod</label>
+            <input type="text" formControlName="code" [(ngModel)]="code" class="form-control">
+          </div>
+          <div [class]="changeInputClass(name)">
+            <label class="form-label">Cari Ad</label>
+            <input type="text" formControlName="name" [(ngModel)]="name" class="form-control">
+          </div>
+          <div [class]="changeInputClass(address)">
+            <label class="form-label">Adres</label>
+            <input type="text" formControlName="address" [(ngModel)]="address" class="form-control">
+          </div>
+          <div [class]="changeInputClass(taxDepartment)">
+            <label class="form-label">Vergi Daresi</label>
+            <input type="text" formControlName="taxDepartment" [(ngModel)]="taxDepartment" class="form-control">
+          </div>
+          <div [class]="changeInputClass(taxIdNumber)">
+            <label class="form-label">Vergi Numarası</label>
+            <input type="text" formControlName="taxIdNumber" [(ngModel)]="taxIdNumber" class="form-control">
+          </div>
+          <div [class]="changeInputClass(identityNumber)">
+            <label class="form-label">T.C.</label>
+            <input type="text" formControlName="identityNumber" [(ngModel)]="identityNumber" class="form-control">
+          </div>
+          <div [class]="changeInputClass(email)">
+            <label class="form-label">Mail Adresi</label>
+            <input type="text" formControlName="email" [(ngModel)]="email" class="form-control">
+          </div>
+          <div [class]="changeInputClass(authorized)">
+            <label class="form-label">Yetkili Kişi</label>
+            <input type="text" formControlName="authorized" [(ngModel)]="authorized" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="addCurrencyAccount()">Cari Ekle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeCurrencyAccountModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cari Güncelleme Modal -->
+<div class="modal fade" id="updateCurrencyAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Cari Güncelleme Formu</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="updatedForm" role="form text-left">
+          <div class="input-group input-group-dynamic mb-4">
+            <span class="input-group-text" id="basic-addon1">Cari Kod</span>
+            <input type="text" formControlName="code" class="form-control" placeholder="Cari Kod">
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="name" placeholder="Cari Ad">
+            <span class="input-group-text" id="basic-addon2">Cari Ad</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="address" placeholder="Adres">
+            <span class="input-group-text" id="basic-addon2">Adres</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="taxDepartment" placeholder="Vergi Dairesi">
+            <span class="input-group-text" id="basic-addon2">Vergi Dairesi</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="taxIdNumber" placeholder="Vergi Numarası">
+            <span class="input-group-text" id="basic-addon2">Vergi Numarası</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="identityNumber" placeholder="T.C."
+              aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2">T.C.</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="email" placeholder="Mail Adresi">
+            <span class="input-group-text" id="basic-addon2">Mail Adresi</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="authorized" placeholder="Yetkili Kişi">
+            <span class="input-group-text" id="basic-addon2">Yetkili Kişi</span>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="updateCurrencyAccount()">Cari Güncelle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeCurrencyAccountModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Excel İşlemi Modal -->
+<div class="modal fade" id="addExcelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Excel'den Cari Yükleme</h5>
+      </div>
+      <div class="card-body">
+<input class="file-upload btn-primary" type="file" (change)="onChange($event)">
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="addFromExcelCurrencyAccount()">Yükle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeAddFromExcelModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--   Core JS Files   -->
+<script src="/../assets/js/core/popper.min.js"></script>
+<script src="/../assets/js/core/bootstrap.min.js"></script>
+<script src="/../assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/../assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/../assets/js/plugins/chartjs.min.js"></script>
+
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="/../assets/js/material-dashboard.min.js?v=3.0.2"></script>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
 
 
   constructor(
+    @Inject('validHatasi') private validHatasi:string,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
@@ -115,7 +116,7 @@ export class RegisterComponent implements OnInit {
         console.log(this.registerDto);
       }
       else {
-        this.toastr.error("Eksik Bilgileri Doldurun!", "Hata");
+        this.toastr.error(this.validHatasi);
       }
     }
     else {
