@@ -18,7 +18,7 @@
         <span class="nav-link-text ms-1">Ana Sayfa</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="accountReconciliation" class="nav-item">
       <a [class]="changePage('/ereconciliations')" href="#">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">assignment_turned_in</i>
@@ -26,7 +26,7 @@
         <span class="nav-link-text ms-1">Cari Mutabakatları</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="baBsReconciliation" class="nav-item">
       <a [class]="changePage('/ebabsreconciliations')" href="#">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">description</i>
@@ -38,7 +38,7 @@
     <li class="nav-item mt-3">
       <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Hesap Ayarları</h6>
     </li>
-    <li class="nav-item">
+    <li *ngIf="currencyAccount" class="nav-item">
       <a [class]="changePage('/currency-account')" href="/currency-account">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">person</i>
@@ -46,7 +46,7 @@
         <span class="nav-link-text ms-1">Cariler</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="user" class="nav-item">
       <a [class]="changePage('/user')" href="#">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">assignment_ind</i>
@@ -54,7 +54,7 @@
         <span class="nav-link-text ms-1">Kullanıcılar</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="company" class="nav-item">
       <a [class]="changePage('/company')" href="#">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">chrome_reader_mode</i>
@@ -62,7 +62,7 @@
         <span class="nav-link-text ms-1">Şirketler</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="mailParameter" class="nav-item">
       <a [class]="changePage('/mail-parameter')" href="#">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">alternate_email</i>
@@ -70,7 +70,7 @@
         <span class="nav-link-text ms-1">Mail Parametreleri</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="mailTemplate" class="nav-item">
       <a [class]="changePage('/mail-templete')" href="#">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">comment</i>

@@ -25,13 +25,13 @@
                 <label class="form-label">Ara</label>
                 <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchString">
               </div>
-              <button type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-toggle="modal"
+              <button *ngIf="operationAdd" type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-toggle="modal"
                 data-bs-target="#addCurrencyAccountModal"><i class="material-icons opacity-10">add</i> Cari
                 Ekle</button>
-              <button type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-target="#addExcelModal" data-bs-toggle="modal">
+              <button *ngIf="operationAdd" type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-target="#addExcelModal" data-bs-toggle="modal">
                 <i class="material-icons opacity-10">add</i> Excel'den Cari Ekle</button>
 
-              <i class="material-icons opacity-10 excel-icon" title="Excel İndir"
+              <i *ngIf="operationList" class="material-icons opacity-10 excel-icon" title="Excel İndir"
                 style="margin: 10px; color: green;font-size: 25px;" (click)="exportExcel()">description</i>
             </div>
             <div class="table-responsive p-0">
@@ -85,13 +85,13 @@
                       <h6 class="text-xs text-secondary mb-0">{{currency.isActive? "Aktif":"Pasif"}}</h6>
                     </td>
                     <td class="align-middle text-center">
-                      <a href="javascript:;" style="margin-right: 3px;" class="btn btn-warning text-xs btn-sm mb-0"
+                      <a *ngIf="operationUpdate" href="javascript:;" style="margin-right: 3px;" class="btn btn-warning text-xs btn-sm mb-0"
                         title="Güncelle" data-toggle="tooltip" data-original-title="Edit user"
                         data-bs-target="#updateCurrencyAccountModal" data-bs-toggle="modal"
                         (click)="getCurrencyAccount(currency.id)">
                         <i class="material-icons opacity-10">edit</i>
                       </a>
-                      <a href="javascript:;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
+                      <a *ngIf="operationDelete" href="javascript:;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
                         data-original-title="Edit user" title="Sil" (click)="deleteInfo(currency)">
                         <i class="material-icons opacity-10">restore_from_trash</i>
                       </a>
@@ -224,7 +224,7 @@
         <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Excel'den Cari Yükleme</h5>
       </div>
       <div class="card-body">
-<input class="file-upload btn-primary" type="file" (change)="onChange($event)">
+<input class="file-upload btn-primary" type="file" (change)="onChange($event)" id="addExcelFile">
       </div>
       <div class="card-footer" style="display: flex;">
         <button type="button" class="btn bg-gradient-primary" (click)="addFromExcelCurrencyAccount()">Yükle</button>

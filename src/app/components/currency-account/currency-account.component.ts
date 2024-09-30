@@ -8,6 +8,8 @@ import { SwalService } from '../../services/swal.service';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { UserOperationClaimService } from '../../services/user-operation-claim.service';
+import { UserOperationClaimModel } from '../../models/userOperationClaimModel';
 
 @Component({
   selector: 'app-currency-account',
@@ -18,16 +20,19 @@ export class CurrencyAccountComponent implements OnInit {
 
   @Inject("validHatasi") private validHatasi: string;
 
-
+  //#region Değişkenler
   test: string = '';
   currencyAccounts: CurrencyAccount[] = [];
+  userOperationClaims: UserOperationClaimModel[] = [];
+
   jwtHelper: JwtHelperService = new JwtHelperService();
   isAuthenticated: boolean;
   companyId: string;
+  userId: string;
   searchString: string;
   addedForm: FormGroup;
   updatedForm: FormGroup;
-file:string;
+  file: string;
   code: string = "";
   name: string = "";
   address: string = "";
@@ -36,6 +41,15 @@ file:string;
   identityNumber: string;
   email: string;
   authorized: string;
+
+  operationAdd = false;
+  operationUpdate = false;
+  operationDelete = false;
+  operationGet = false;
+  operationList = false;
+
+  //#endregion
+
 
   currencyAccount: CurrencyAccount = {
     address: "",
@@ -59,7 +73,8 @@ file:string;
     private swal: SwalService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userOperationClaimService: UserOperationClaimService
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +83,7 @@ file:string;
     this.getList();
     this.createAddForm();
     this.createUpdateForm();
+    this.userOperationClaimGetList();
 
   }
   //Cari ekleme formu tanımlamak ve ngModel ile verileri alabilmek için
@@ -110,15 +126,41 @@ file:string;
         let token = localStorage.getItem('token');
         let decode = this.jwtHelper.decodeToken(token);
         let name = Object.keys(decode).filter((x) => x.endsWith('/name'))[0];
-        let companyName = Object.keys(decode).filter((x) =>
-          x.endsWith('/ispersistent')
-        )[0];
-        let companyId = Object.keys(decode).filter((x) =>
-          x.endsWith('/anonymous')
-        )[0];
+        let companyName = Object.keys(decode).filter((x) => x.endsWith('/ispersistent'))[0];
+        let companyId = Object.keys(decode).filter((x) => x.endsWith('/anonymous'))[0];
+        let userId = Object.keys(decode).filter((x) => x.endsWith('/nameidentifier'))[0];
         this.companyId = decode[companyId];
+        this.userId = decode[userId];
+
       }
     }
+  }
+
+  userOperationClaimGetList() {
+    this.userOperationClaimService.getList(this.userId, this.companyId).subscribe((res) => {
+      this.userOperationClaims = res.data;
+      console.log(res.data);
+
+      this.userOperationClaims.forEach(value => {
+
+        if(value.operationClaimId == "1"){
+          this.operationAdd = true;
+          this.operationDelete = true;
+          this.operationUpdate = true;
+          this.operationGet= true;
+          this.operationList = true;
+        }
+        if(value.operationClaimId == "23"){ this.operationAdd = true;}
+        if(value.operationClaimId == "25"){ this.operationUpdate = true;}
+        if(value.operationClaimId == "24"){ this.operationDelete = true;}
+        if(value.operationClaimId == "26"){ this.operationGet = true;}
+        if(value.operationClaimId == "27"){ this.operationList = true;}
+      })
+
+    }, (err) => {
+      this.toastr.error("Bir hata oluştu.");
+    });
+
   }
 
   getList() {
@@ -175,14 +217,14 @@ file:string;
 
   updateCurrencyAccount() {
 
-    if(this.updatedForm.valid){
-      let currencyAccountModel = Object.assign({},this.updatedForm.value);
+    if (this.updatedForm.valid) {
+      let currencyAccountModel = Object.assign({}, this.updatedForm.value);
 
-      this.currencyAccountService.update(currencyAccountModel).subscribe((res) =>{
+      this.currencyAccountService.update(currencyAccountModel).subscribe((res) => {
         document.getElementById("closeCurrencyAccountModal").click();
         this.getList();
         this.swal.callToast(res.message);
-      },(err) =>{
+      }, (err) => {
         this.swal.callToastError(this.validHatasi);
       })
     }
@@ -203,10 +245,10 @@ file:string;
       this.updatedForm.controls["authorized"].setValue(res.data.authorized);
       //console.log(res);
 
-    },(err) =>{
+    }, (err) => {
       this.toastr.error(err.message);
     }
-  )
+    )
   }
 
   changeInputClass(text: string) {
@@ -217,22 +259,16 @@ file:string;
     }
   }
 
-  excelAddCurrencyAccount(){
-
-  }
-
-  onChange(event:any){
+  onChange(event: any) {
     this.file = event.target.files[0];
-
   }
-
-
   addFromExcelCurrencyAccount() {
-    if (this.file !=null || this.file !="") {
-      this.currencyAccountService.addFromExcel(this.file,this.companyId).subscribe((res) => {
+    if (this.file != null || this.file != "") {
+      this.currencyAccountService.addFromExcel(this.file, this.companyId).subscribe((res) => {
         this.swal.callToast(res.message);
         this.getList();
         document.getElementById("closeAddFromExcelModal").click();
+        this.file = "";
       }, (err) => {
         this.swal.callToastError(err.message);
       }
