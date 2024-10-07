@@ -71,7 +71,7 @@
                         <i class="material-icons opacity-10">edit</i>
                       </a>
                       <a *ngIf="operationDelete" href="javascript:;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
-                        data-original-title="Edit user" title="Sil" (click)="deleteInfo(user)">
+                        data-original-title="Edit user" title="Sil" (click)="changeStatus(user.userId)">
                         <i class="material-icons opacity-10">restore_from_trash</i>
                       </a>
                     </td>

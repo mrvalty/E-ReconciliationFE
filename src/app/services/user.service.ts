@@ -6,7 +6,7 @@ import { ListResponseModel } from '../models/listResponseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { UserDto } from '../models/userDto';
 import { ResponseModel } from '../models/responseModel';
-import { UserForRegisterToSecondAccountDto } from '../models/dtos/UserForRegisterToSecondAccountDto';
+import { UserForRegisterAccountDto } from '../models/dtos/userForRegisterAccountDto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,14 @@ export class UserService {
     let api = this.apiUrl + "users/update";
     return this.httpClient.post<ResponseModel>(api,userInfo);
   }
-  register(registerDto: UserForRegisterToSecondAccountDto):Observable<ResponseModel>{
+  register(registerDto: UserForRegisterAccountDto):Observable<ResponseModel>{
     let api = this.apiUrl + "auth/registerSecondAccount";
     return this.httpClient.post<ResponseModel>(api,registerDto);
   }
+
+  changeStatus(id:number):Observable<ResponseModel>{
+    let api = this.apiUrl + "users/changeStatus?id=" + id;
+    return this.httpClient.get<ResponseModel>(api);
+  }
+
 }

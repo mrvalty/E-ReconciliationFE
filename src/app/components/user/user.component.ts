@@ -13,8 +13,8 @@ import { CurrencyAccount } from '../../models/currencyAccount';
 import { UserModel } from '../../models/userModel';
 import { UserService } from '../../services/user.service';
 import { UserDto } from '../../models/userDto';
-import { UserForRegisterToSecondAccountDto } from '../../models/dtos/UserForRegisterToSecondAccountDto';
 import { error } from 'console';
+import { UserForRegisterAccountDto } from '../../models/dtos/userForRegisterAccountDto';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class UserComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService();
   userOperationClaims: UserOperationClaimModel[] = [];
   users: UserModel[] = [];
-  userForRegisterToSecondAccountDto:UserForRegisterToSecondAccountDto;
+  userForRegisterToSecondAccountDto:UserForRegisterAccountDto;
 
 
   operationAdd = false;
@@ -189,8 +189,13 @@ export class UserComponent implements OnInit {
     })
 
   }
-  deleteInfo(user: UserModel) {
-
+  changeStatus(id:number) {
+    this.userService.changeStatus(id).subscribe((res)=>{
+      this.swal.callToast(res.message,'success');
+      this.userGetList();
+    },(err) => {
+      this.swal.callToastError(this.validHatasi);
+    })
   }
 
 
