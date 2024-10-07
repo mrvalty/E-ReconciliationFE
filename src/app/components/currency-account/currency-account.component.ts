@@ -139,7 +139,7 @@ export class CurrencyAccountComponent implements OnInit {
   userOperationClaimGetList() {
     this.userOperationClaimService.getList(this.userId, this.companyId).subscribe((res) => {
       this.userOperationClaims = res.data;
-      console.log(res.data);
+      //console.log(res.data);
 
       this.userOperationClaims.forEach(value => {
 
@@ -216,7 +216,6 @@ export class CurrencyAccountComponent implements OnInit {
   }
 
   updateCurrencyAccount() {
-
     if (this.updatedForm.valid) {
       let currencyAccountModel = Object.assign({}, this.updatedForm.value);
 

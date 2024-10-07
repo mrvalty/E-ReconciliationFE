@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,FormControl, Validators, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RegisterDto } from '../../models/dtos/registerDto';
 import { DatePipe } from '@angular/common';
@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
   address: string = "";
   taxDepartment: string = "";
   taxIdNumber: string = "";
-  identifyNumber: string = "";
+  identityNumber: string = "";
   termsandConditionCheck: boolean = false;
   isRegisterComplete : boolean = false;
   //#endregion
@@ -67,6 +67,7 @@ export class RegisterComponent implements OnInit {
     })
 
   }
+
 
   register() {
     console.log(this.termsandConditionCheck);

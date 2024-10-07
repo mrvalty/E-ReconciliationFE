@@ -84,7 +84,7 @@ export class SidebarComponent implements OnInit {
   userOperationClaimGetList() {
     this.userOperationClaimService.getList(this.userId, this.companyId).subscribe((res) => {
       this.userOperationClaims = res.data;
-      console.log(res.data);
+      //console.log(res.data);
 
       this.userOperationClaims.forEach(value => {
 

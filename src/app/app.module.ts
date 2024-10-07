@@ -21,6 +21,8 @@ import { CurrencyAccountComponent } from './components/currency-account/currency
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CurrencyAccountPipe } from './pipe/currency-account.pipe';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { UserComponent } from './components/user/user.component';
+import { UserPipe } from './pipe/user.pipe';
 
 @NgModule({
   declarations: [
@@ -33,14 +35,17 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     NavComponent,
     SidebarComponent,
     CurrencyAccountComponent,
-    CurrencyAccountPipe
+    CurrencyAccountPipe,
+    UserComponent,
+    UserPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     RouterModule,
-    FormsModule,ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       progressBar:true,

@@ -12,11 +12,9 @@ export class CurrencyAccountPipe implements PipeTransform {
       return value;
     }
 
-  console.log(value);
+  //console.log(value);
 
   return value.filter(x=>x.email.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()) || x.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()));
-
-
     // return value.filter(x=>{
     //   const code = x.code.toLowerCase().toString().includes(searchString.toLocaleLowerCase())
     //   const name = x.name.toLowerCase().toString().includes(searchString.toLocaleLowerCase())
@@ -27,10 +25,6 @@ export class CurrencyAccountPipe implements PipeTransform {
     //   const email = x.email.toLowerCase().toString().includes(searchString.toLocaleLowerCase())
     //   const authorized = x.authorized.toLowerCase().toString().includes(searchString.toLocaleLowerCase())
     //   //const addedAt = x.addedAt.toLowerCase().toString().includes(searchString.toLocaleLowerCase())
-
-
-
-
     // })
   }
 

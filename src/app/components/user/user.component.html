@@ -1,0 +1,176 @@
+<aside
+  class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+  id="sidenav-main">
+  <app-sidebar></app-sidebar>
+</aside>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  <app-nav></app-nav>
+  <!-- End Navbar -->
+  <!-- <input type="text" [(ngModel)]="test" #test>
+ böyle yaparsan isim çakışması yaşar ve kırmızı uyarı verir böyle bir şey var diyor. hangi dosyada bilmiyorum -->
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">{{title}}</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="button-container"
+              style="display: flex; justify-content: flex-end; gap: 10px; padding-right: 15px;">
+              <div class="input-group input-group-outline mb-3" style="width: 20%;">
+                <label class="form-label">Ara</label>
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchString">
+              </div>
+              <button *ngIf="operationAdd" type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-toggle="modal"
+                data-bs-target="#addUserModal"><i class="material-icons opacity-10">add</i>  Kullanıcı
+                Ekle</button>
+
+              <i *ngIf="operationList" class="material-icons opacity-10 excel-icon" title="Excel İndir"
+                style="margin: 10px; color: green;font-size: 25px;" (click)="exportExcel()">description</i>
+            </div>
+            <div class="table-responsive p-0">
+              <table id="excelTable" class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kullanıcı Adı</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">E-Mail</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Eklenme Tarihi</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Durum</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">İşlem
+                    </th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users | userPipes: searchString">
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{user.name}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <span class="text-secondary text-xs font-weight-bold">{{user.email}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="text-xs text-secondary mb-0">{{user.userAddedAt | date:'dd-MM-yyyy'}}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="text-xs text-secondary mb-0">{{user.userIsActive? "Aktif":"Pasif"}}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <a *ngIf="operationUpdate" href="javascript:;" style="margin-right: 3px;" class="btn btn-warning text-xs btn-sm mb-0"
+                        title="Güncelle" data-toggle="tooltip" data-original-title="Edit user"
+                        data-bs-target="#updateUserModal" data-bs-toggle="modal"
+                        (click)="getUser(user.userId)">
+                        <i class="material-icons opacity-10">edit</i>
+                      </a>
+                      <a *ngIf="operationDelete" href="javascript:;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
+                        data-original-title="Edit user" title="Sil" (click)="deleteInfo(user)">
+                        <i class="material-icons opacity-10">restore_from_trash</i>
+                      </a>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Kulanıcı Ekleme Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalSignTitle">Kullanıcı Ekleme Formu</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="addedForm">
+          <div [class]="changeInputClass(name)">
+            <label class="form-label">Kullanıcı Adı</label>
+            <input type="text" formControlName="name" [(ngModel)]="name" class="form-control">
+          </div>
+          <div [class]="changeInputClass(email)">
+            <label class="form-label">Mail Adresi</label>
+            <input type="text" formControlName="email" [(ngModel)]="email" class="form-control">
+          </div>
+          <div [class]="changeInputClass(password)">
+            <label class="form-label">Şifre</label>
+            <input type="password" formControlName="password" [(ngModel)]="password" class="form-control">
+          </div>
+        </form>
+
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="addUser()">Kullanıcı Ekle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeCurrencyAccountModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Kullanıcı Güncelleme Modal -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Kullanıcı Güncelleme Formu</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="updatedForm" role="form text-left">
+          <div class="input-group input-group-dynamic mb-4">
+            <span class="input-group-text" id="basic-addon1">Kullanıcı Adı</span>
+            <input type="text" formControlName="name" class="form-control" placeholder="Kullanıcı Adı">
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="email" placeholder="Mail Adresi">
+            <span class="input-group-text" id="basic-addon2">Mail Adresi</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="password" class="form-control" formControlName="password" placeholder="Şifre">
+            <span class="input-group-text" id="basic-addon2">Şifre</span>
+          </div>
+          <div class="custom-control custom-checkbox my-3">
+            <input type="checkbox" class="custom-control-input" formControlName="isActive" name="isActive" value="Aktif">
+            <label class="custom-control-label">Aktif</label>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="updateUser()">Kullanıcı Güncelle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeCurrencyAccountModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!--   Core JS Files   -->
+<!-- <script src="/../assets/js/core/popper.min.js"></script>
+<script src="/../assets/js/core/bootstrap.min.js"></script>
+<script src="/../assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/../assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/../assets/js/plugins/chartjs.min.js"></script> -->
+
+<!-- Github buttons -->
+<!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<!-- <script src="/../assets/js/material-dashboard.min.js?v=3.0.2"></script> -->

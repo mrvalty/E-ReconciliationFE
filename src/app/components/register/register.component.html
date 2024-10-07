@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,16 +11,11 @@
     e-Mutabakat Sitesi
   </title>
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <!-- Nucleo Icons -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css" />
   <!-- Font Awesome Icons -->
-  <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <!-- CSS Files -->
-  <link id="pagestyle" href="/../assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
 </head>
 
 <body class="">
@@ -28,27 +24,23 @@
       <div class="page-header min-vh-100">
         <div class="container">
           <div class="row">
-            <div
-              class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-              <div
-                class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
-                style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
+            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
               </div>
             </div>
             <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
               <div class="card card-plain">
                 <div class="card-header">
-                  <h4 class="font-weight-bolder">Kayıt İşlemi Tamamlandı</h4>
+                  <h4 class="font-weight-bolder">Kayıt Başarıyla Tamamlandı</h4>
+                  <p><i>Kayıt işleminiz başarıyla tamamlandı. Sisteme giriş yapabilmek için mail adresinize gelen linki tıklayarak <strong>mailinizi onaylamanız gerekmektedir.</strong> Eğer mail gelmediyse giriş sayfasından tekrar onay maili gönderebilirsiniz.</i></p>
                 </div>
-
                 <div class="card-body">
-                  <p>Hesabınızı aktif hale getirmek için <strong>mail adresinize iletilen aktivasyon linkini</strong> lütfen onaylayınız!</p>
 
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
-                    Hesabın zaten var mı?
-                    <a href="/login" class="text-primary text-gradient font-weight-bold">Giriş Yap!</a>
+                    Zaten hesabınız var mı?
+                    <a href="/login" class="text-primary text-gradient font-weight-bold">Giriş Yapın</a>
                   </p>
                 </div>
               </div>
@@ -63,19 +55,16 @@
       <div class="page-header min-vh-100">
         <div class="container">
           <div class="row">
-            <div
-              class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-              <div
-                class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
-                style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
+            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
               </div>
             </div>
             <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
               <div class="card card-plain">
                 <div class="card-header">
                   <h4 class="font-weight-bolder">Kayıt Ol</h4>
+                  <p class="mb-0">Kayıt olmak için bilgilerinizi girin</p>
                 </div>
-
                 <div class="card-body">
                   <form role="form" [formGroup]="registerForm">
                     <h4>Kullanıcı Bilgileri</h4>
@@ -92,9 +81,9 @@
                       <label class="form-label">Şifre</label>
                       <input type="password" formControlName="password" [(ngModel)]="password" class="form-control">
                     </div>
-                    <h4>Şirket Bilgileri</h4>
                     <hr>
-
+                    <h4>Şirket Bilgileri Bilgileri</h4>
+                    <hr>
                     <div [class]="changeInputClass(companyName)">
                       <label class="form-label">Firma Adı</label>
                       <input type="text" formControlName="companyName" [(ngModel)]="companyName" class="form-control">
@@ -109,42 +98,33 @@
                     </div>
                     <div [class]="changeInputClass(taxIdNumber)">
                       <label class="form-label">Vergi Numarası</label>
-                      <input type="text" formControlName="taxIdNumber" [(ngModel)]="taxIdNumber" class="form-control" maxlength="11">
+                      <input type="text" formControlName="taxIdNumber" [(ngModel)]="taxIdNumber" maxlength="10" class="form-control">
                     </div>
-                    <div [class]="changeInputClass(identifyNumber)">
+                    <div [class]="changeInputClass(identityNumber)">
                       <label class="form-label">T.C. Numarası</label>
-                      <input type="text" formControlName="identityNumber" [(ngModel)]="identifyNumber" class="form-control" maxlength="11">
+                      <input type="text" formControlName="identityNumber" [(ngModel)]="identityNumber" maxlength="11" class="form-control">
                     </div>
-
-                    <div class="form-check form-check-info text-start ps-0">
-                      <input class="form-check-input" type="checkbox" value="" [(ngModel)]="termsandConditionCheck"  [ngModelOptions]="{standalone: true}" id="flexCheckDefault" checked="">
-                      <label class="form-check-label" for="flexCheckDefault">
-                       <a class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#exampleModal">Kullanıcı Sözleşmesini Onaylıyorum</a>
+                    <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="termsandConditionCheck" [ngModelOptions]="{standalone: true}" id="terms">
+                      <label class="form-check-label mb-0 ms-2" for="terms">
+                        <a class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#termsAndConditionsModal">Kullanıcı sözleşmesini Onaylıyorum</a>
                       </label>
                     </div>
-
-                    <!-- <div class="form-check form-check-info text-start ps-0">
-                      <label class="form-check-label" for="flexCheckDefault">
-                        <a href="javascript:;" class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#exampleModal">Kullanıcı Sözleşmesi</a>
-                        <p class="alert alert-danger">Sözleşme Onaylanmadı!</p>
-                      </label>
-                    </div> -->
-                    <div class="text-center">
-                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" (click)="register()" *ngIf="isRegisterActiveButton">Kayıt
-                        Ol</button>
+                    <div class="text-center" *ngIf="isRegisterActiveButton">
+                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" (click)="register()">Kayıt Ol</button>
                     </div>
-                    <div class="text-center">
-                      <button class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" *ngIf="!isRegisterActiveButton" type="button" disabled>
+                    <div class="text-center" *ngIf="!isRegisterActiveButton">
+                      <button class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" type="button" disabled>
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span class="sr-only">Kayıt Yapılıyor...</span>
+                        Kayıt yapılıyor...
                       </button>
                     </div>
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
-                    Hesabın zaten var mı?
-                    <a href="/login" class="text-primary text-gradient font-weight-bold">Giriş Yap!</a>
+                    Zaten hesabınız var mı?
+                    <a href="/login" class="text-primary text-gradient font-weight-bold">Giriş Yapın</a>
                   </p>
                 </div>
               </div>
@@ -164,21 +144,26 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 </body>
 
 </html>
+
+
 <!-- Modal -->
-<div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog modal-xl" role="document">
+<div class="modal fade" id="termsAndConditionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Sözleşme</h5>
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Kullanım Sözleşmesi</h5>
         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-       <p [innerHTML]="termsandCondition.description"></p>
+        <p [innerHtml]="termsandCondition?.description"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Kapat</button>

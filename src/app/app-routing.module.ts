@@ -7,11 +7,13 @@ import { RegisterComponent } from './components/register/register.component';
 import { ConfirmComponent } from './components/register/confirm/confirm.component';
 import { ForgotPasswordComponent } from './components/login/forgot-password/forgot-password.component';
 import { CurrencyAccountComponent } from './components/currency-account/currency-account.component';
+import { UserComponent } from './components/user/user.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent,canActivate:[loginGuard]},
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},
+  {path:'user',component:UserComponent},
   {path:'registerConfirm',component:LoginComponent},
   {path:'registerConfirm/:value',component:ConfirmComponent},
   {path:'forgot-password/:value',component:ForgotPasswordComponent},

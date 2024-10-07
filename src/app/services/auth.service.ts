@@ -21,7 +21,7 @@ export class AuthService {
   )
   { }
   register(registerDto: RegisterDto) {
-    let api = this.apiUrl +"auth/register"
+    let api = this.apiUrl + "auth/register"
     return this.httpClient.post<SingleResponseModel<TokenModel>>(api,registerDto)
 
   }
