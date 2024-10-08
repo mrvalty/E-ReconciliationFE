@@ -7,5 +7,6 @@ export interface UserModel{
   email:string,
   companyId:number,
   userAddedAt:string,
-  userIsActive:boolean
+  userIsActive:boolean,
+  userMailValue:string,
 }

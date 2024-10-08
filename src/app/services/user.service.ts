@@ -4,9 +4,10 @@ import { UserModel } from '../models/userModel';
 import { Observable } from 'rxjs';
 import { ListResponseModel } from '../models/listResponseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
-import { UserDto } from '../models/userDto';
+import { UserDto } from '../models/dtos/userDto';
 import { ResponseModel } from '../models/responseModel';
 import { UserForRegisterAccountDto } from '../models/dtos/userForRegisterAccountDto';
+import { OperationClaimForUserListDto } from '../models/dtos/operationClaimForUserListDto';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,16 @@ export class UserService {
   changeStatus(id:number):Observable<ResponseModel>{
     let api = this.apiUrl + "users/changeStatus?id=" + id;
     return this.httpClient.get<ResponseModel>(api);
+  }
+
+  getOperationClaimForUser(value: string, companyId:string):Observable<ListResponseModel<OperationClaimForUserListDto>>{
+    let api = this.apiUrl + "users/getOperationClaimUser?value=" + value + "&companyId=" + companyId;
+    return this.httpClient.get<ListResponseModel<OperationClaimForUserListDto>>(api)
+  }
+
+  updateOperationClaim(operationClaimForUserListDto: OperationClaimForUserListDto):Observable<ResponseModel>{
+    let api = this.apiUrl + "users/updateOperationClaim";
+    return this.httpClient.post<ResponseModel>(api,operationClaimForUserListDto);
   }
 
 }

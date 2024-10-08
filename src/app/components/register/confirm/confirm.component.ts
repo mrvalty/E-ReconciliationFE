@@ -25,7 +25,6 @@ export class ConfirmComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(p => {
-
       this.confirmMail(p["value"]);
     })
   }

@@ -23,6 +23,8 @@ import { CurrencyAccountPipe } from './pipe/currency-account.pipe';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { UserComponent } from './components/user/user.component';
 import { UserPipe } from './pipe/user.pipe';
+import { UserOperationClaimComponent } from './components/user/user-operation-claim/user-operation-claim.component';
+import { UserOperationClaimPipe } from './pipe/user-operation-claim.pipe';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { UserPipe } from './pipe/user.pipe';
     CurrencyAccountPipe,
     UserComponent,
     UserPipe,
+    UserOperationClaimComponent,
+    UserOperationClaimPipe,
   ],
   imports: [
     BrowserModule,

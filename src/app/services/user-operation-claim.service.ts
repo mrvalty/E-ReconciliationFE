@@ -4,6 +4,7 @@ import { OperationClaimModel } from '../models/operationClaimModel';
 import { ListResponseModel } from '../models/listResponseModel';
 import { Observable } from 'rxjs';
 import { UserOperationClaimModel } from '../models/userOperationClaimModel';
+import { OperationClaimForUserListDto } from '../models/dtos/operationClaimForUserListDto';
 
 @Injectable({
   providedIn: 'root'

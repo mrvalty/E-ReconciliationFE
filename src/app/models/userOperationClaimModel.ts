@@ -5,4 +5,5 @@ export interface UserOperationClaimModel {
   operationClaimId:string;
   operationClaimName:string;
   operationClaimDescription:string;
+  isActive:boolean;
 }

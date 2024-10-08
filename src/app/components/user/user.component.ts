@@ -12,7 +12,7 @@ import { UserOperationClaimModel } from '../../models/userOperationClaimModel';
 import { CurrencyAccount } from '../../models/currencyAccount';
 import { UserModel } from '../../models/userModel';
 import { UserService } from '../../services/user.service';
-import { UserDto } from '../../models/userDto';
+import { UserDto } from '../../models/dtos/userDto';
 import { error } from 'console';
 import { UserForRegisterAccountDto } from '../../models/dtos/userForRegisterAccountDto';
 
@@ -189,15 +189,24 @@ export class UserComponent implements OnInit {
     })
 
   }
-  changeStatus(id:number) {
-    this.userService.changeStatus(id).subscribe((res)=>{
-      this.swal.callToast(res.message,'success');
-      this.userGetList();
-    },(err) => {
-      this.swal.callToastError(this.validHatasi);
-    })
+  // changeStatus(id:number) {
+  //   this.userService.changeStatus(id).subscribe((res)=>{
+  //     this.swal.callToast(res.message,'success');
+  //     this.userGetList();
+  //   },(err) => {
+  //     this.swal.callToastError(this.validHatasi);
+  //   })
+  // }
+  changeStatus(id:number){
+    this.swal.callSwal("Durumu Değiştir","Durumu pasif/aktif güncellemek istediğinize emin misiniz?",()=>{
+      this.userService.changeStatus(id).subscribe((res)=>{
+        this.swal.callToast(res.message,'success');
+        this.userGetList();
+      },(err) => {
+        this.swal.callToastError(this.validHatasi);
+      })
+    });
   }
-
 
 
   updateUser() {

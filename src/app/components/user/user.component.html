@@ -70,10 +70,15 @@
                         (click)="getUser(user.userId)">
                         <i class="material-icons opacity-10">edit</i>
                       </a>
-                      <a *ngIf="operationDelete" href="javascript:;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
+                      <a *ngIf="operationDelete" href="javascript:;" style="margin-right: 3px;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
                         data-original-title="Edit user" title="Sil" (click)="changeStatus(user.userId)">
                         <i class="material-icons opacity-10">restore_from_trash</i>
                       </a>
+
+                      <a href="/user-operation-claim/{{user.userMailValue}}" *ngIf="operationUpdate" href="javascript:;" class="btn btn-secondary text-xs btn-sm mb-0" data-toggle="tooltip"
+                      data-original-title="Edit user" title="Yetkiler">
+                      <i class="material-icons opacity-10">checklist</i>
+                    </a>
                     </td>
                   </tr>
 
