@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { FormBuilder, FormGroup,FormControl, Validators, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RegisterDto } from '../../models/dtos/registerDto';
 import { DatePipe } from '@angular/common';
-import { TermsandCondition } from '../../models/termsandCondition';
 import { BlobOptions } from 'node:buffer';
 import { fail } from 'node:assert';
+import { TermsAndConditions } from '../../models/termsAndConditions';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   registerDto: RegisterDto;
 
   registerForm: FormGroup;
-  termsandCondition: TermsandCondition;
+  termsCondition: TermsAndConditions;
 
   //#region Değişkenler
   isRegisterActiveButton: boolean = true;
@@ -32,13 +32,12 @@ export class RegisterComponent implements OnInit {
   taxIdNumber: string = "";
   identityNumber: string = "";
   termsandConditionCheck: boolean = false;
-  isRegisterComplete : boolean = false;
+  isRegisterComplete: boolean = false;
   //#endregion
 
 
-
   constructor(
-    @Inject('validHatasi') private validHatasi:string,
+    @Inject('validHatasi') private validHatasi: string,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
@@ -48,8 +47,9 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getTermsandCondition();
+    //this.getTermsandCondition();
     this.createRegisterForm();
+    //this.kullaniciSozlesmesiFunc();
   }
 
   createRegisterForm() {
@@ -65,7 +65,6 @@ export class RegisterComponent implements OnInit {
       addedAt: [Date.now(),],
       isActive: [true]
     })
-
   }
 
 
@@ -107,7 +106,7 @@ export class RegisterComponent implements OnInit {
 
         this.authService.register(this.registerDto).subscribe((res) => {
 
-          this.isRegisterComplete= true
+          this.isRegisterComplete = true
 
         }, (err) => {
           this.isRegisterActiveButton = true;
@@ -137,7 +136,7 @@ export class RegisterComponent implements OnInit {
 
   getTermsandCondition() {
     this.authService.getTermsandCondition().subscribe((res) => {
-      this.termsandCondition = res.data;
+      this.termsCondition = res.data;
     }, (err) => {
       this.toastr.error(err.error);
     })

@@ -40,22 +40,23 @@
                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">E-Mail</th>
                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Eklenme Tarihi</th>
                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Durum</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Şirketler</th>
                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">İşlem
                     </th>
                     <th class="text-secondary opacity-7"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let user of users | userPipes: searchString">
+                  <tr *ngFor="let user of usersRelationShipDto | userPipes: searchString">
                     <td>
                       <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">{{user.name}}</h6>
+                          <h6 class="mb-0 text-sm">{{user.userUserName}}</h6>
                         </div>
                       </div>
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <span class="text-secondary text-xs font-weight-bold">{{user.email}}</span>
+                      <span class="text-secondary text-xs font-weight-bold">{{user.userUserName}}</span>
                     </td>
                     <td class="align-middle text-center">
                       <h6 class="text-xs text-secondary mb-0">{{user.userAddedAt | date:'dd-MM-yyyy'}}</h6>
@@ -63,15 +64,19 @@
                     <td class="align-middle text-center">
                       <h6 class="text-xs text-secondary mb-0">{{user.userIsActive? "Aktif":"Pasif"}}</h6>
                     </td>
+                    <button type="button" (click)="getUserCompanyList(user.userUserId)"
+                          class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#companiesModal">
+                          Şirketler için Tıklayın
+                        </button>
                     <td class="align-middle text-center">
                       <a *ngIf="operationUpdate" href="javascript:;" style="margin-right: 3px;" class="btn btn-warning text-xs btn-sm mb-0"
                         title="Güncelle" data-toggle="tooltip" data-original-title="Edit user"
                         data-bs-target="#updateUserModal" data-bs-toggle="modal"
-                        (click)="getUser(user.userId)">
+                        (click)="getUser(user.userUserId)">
                         <i class="material-icons opacity-10">edit</i>
                       </a>
                       <a *ngIf="operationDelete" href="javascript:;" style="margin-right: 3px;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
-                        data-original-title="Edit user" title="Sil" (click)="changeStatus(user.userId)">
+                        data-original-title="Edit user" title="Sil" (click)="changeStatus(user.userUserId)">
                         <i class="material-icons opacity-10">restore_from_trash</i>
                       </a>
 
@@ -81,7 +86,6 @@
                     </a>
                     </td>
                   </tr>
-
                 </tbody>
               </table>
             </div>
@@ -161,6 +165,50 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Kullanıcı Şirket Güncelleme Modal -->
+<div class="modal fade" id="companiesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Şirket Listesi</h5>
+      <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <p class="alert alert-warning text-white">* Kullanıcıya şirket listesinden şirket ekleyebilirsiniz</p>
+        <hr>
+        <select class="form-select" >
+          <option value="0">Şirket Seçimi Yapın</option>
+        </select>
+        <hr>
+        <hr>
+      </div>
+      <div class="form-group">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Şirket Adı</th>
+              <th>Adres</th>
+              <th>İşlemler</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn bg-gradient-secondary" id="closeCompanyModal"
+        data-bs-dismiss="modal">Kapat</button>
+    </div>
+  </div>
+</div>
 </div>
 
 

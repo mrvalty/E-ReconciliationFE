@@ -82,7 +82,7 @@
                       <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control">
                     </div>
                     <hr>
-                    <h4>Şirket Bilgileri Bilgileri</h4>
+                    <h4>Şirket Bilgileri</h4>
                     <hr>
                     <div [class]="changeInputClass(companyName)">
                       <label class="form-label">Firma Adı</label>
@@ -163,7 +163,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p [innerHtml]="termsandCondition?.description"></p>
+        <p [innerHtml]="termsCondition?.description"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Kapat</button>

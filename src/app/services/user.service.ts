@@ -8,6 +8,7 @@ import { UserDto } from '../models/dtos/userDto';
 import { ResponseModel } from '../models/responseModel';
 import { UserForRegisterAccountDto } from '../models/dtos/userForRegisterAccountDto';
 import { OperationClaimForUserListDto } from '../models/dtos/operationClaimForUserListDto';
+import { UserRelationshipDto } from '../models/dtos/userRelationshipDto';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,13 @@ export class UserService {
   private httpClient: HttpClient) { }
 
   getUserList(companyId:string):Observable<ListResponseModel<UserModel>>{
-    let api = this.apiUrl + "users/getUserList?companyId=" +companyId;
+    let api = this.apiUrl + "users/getUserList?companyId=" + companyId;
     return this.httpClient.get<ListResponseModel<UserModel>>(api);
+  }
+
+  getAdminUserList(adminUserId:string):Observable<ListResponseModel<UserRelationshipDto>>{
+    let api = this.apiUrl + "users/getAdminUserList?adminUserId=" + adminUserId;
+    return this.httpClient.get<ListResponseModel<UserRelationshipDto>>(api);
   }
 
   getbyid(userId:number):Observable<SingleResponseModel<UserDto>>{

@@ -15,7 +15,7 @@ import { UserService } from '../../services/user.service';
 import { UserDto } from '../../models/dtos/userDto';
 import { error } from 'console';
 import { UserForRegisterAccountDto } from '../../models/dtos/userForRegisterAccountDto';
-
+import { UserRelationshipDto } from '../../models/dtos/userRelationshipDto';
 
 @Component({
   selector: 'app-user',
@@ -29,7 +29,8 @@ export class UserComponent implements OnInit {
   userOperationClaims: UserOperationClaimModel[] = [];
   users: UserModel[] = [];
   userForRegisterToSecondAccountDto:UserForRegisterAccountDto;
-
+  usersRelationShipDto:UserRelationshipDto[] = [];
+  userRelationShipDto:UserRelationshipDto;
 
   operationAdd = false;
   operationUpdate = false;
@@ -77,7 +78,8 @@ export class UserComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.refresh();
     this.userOperationClaimGetList();
-    this.userGetList();
+    //this.getUserList();
+    this.getAdminUsersList();
 
     //#region Tanımlanan Form gruplarını çağırma
     this.createUpdateForm();
@@ -144,7 +146,7 @@ export class UserComponent implements OnInit {
 
   }
 
-  userGetList() {
+  getUserList() {
     this.userService.getUserList(this.companyId).subscribe((res) => {
       this.users = res.data;
       //console.log(res.data);
@@ -153,6 +155,17 @@ export class UserComponent implements OnInit {
       console.log(err.error);
     })
   }
+
+  getAdminUsersList() {
+    this.userService.getAdminUserList(this.userId).subscribe((res) => {
+      this.usersRelationShipDto = res.data;
+      console.log(this.usersRelationShipDto);
+    }, (err) => {
+      //this.toastr.error(err.error);
+      console.log(err.error);
+    })
+  }
+
   getUser(userId: number) {
     this.userService.getbyid(userId).subscribe((res) => {
       this.updatedForm.controls["name"].setValue(res.data.name);
@@ -168,7 +181,9 @@ export class UserComponent implements OnInit {
     }
     )
   }
+  getUserCompanyList(userUserId:number){
 
+  }
   createUpdateForm() {
     this.updatedForm = this.formBuilder.group({
       id: [0, Validators.required],
@@ -201,7 +216,7 @@ export class UserComponent implements OnInit {
     this.swal.callSwal("Durumu Değiştir","Durumu pasif/aktif güncellemek istediğinize emin misiniz?",()=>{
       this.userService.changeStatus(id).subscribe((res)=>{
         this.swal.callToast(res.message,'success');
-        this.userGetList();
+        this.getUserList();
       },(err) => {
         this.swal.callToastError(this.validHatasi);
       })
@@ -215,7 +230,7 @@ export class UserComponent implements OnInit {
 
       this.userService.update(userModel).subscribe((res) => {
         document.getElementById("updateUserModal").click();
-        this.userGetList();
+        this.getUserList();
         this.swal.callToast(res.message);
       }, (err) => {
         this.swal.callToastError(this.validHatasi);
@@ -231,7 +246,7 @@ export class UserComponent implements OnInit {
         this.swal.callToast(res.message);
         this.createAddForm();
         this.clearInput();
-        this.userGetList();
+        this.getUserList();
         document.getElementById("addUserModal").click();
       },(err)=>{
         this.toastr.error(err.error);

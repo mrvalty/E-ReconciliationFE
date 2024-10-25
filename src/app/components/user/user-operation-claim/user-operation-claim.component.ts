@@ -68,7 +68,7 @@ export class UserOperationClaimComponent implements OnInit {
   }
   updateUserOperationClaim(operationClaim:OperationClaimForUserListDto){
     this.userService.updateOperationClaim(operationClaim).subscribe((res)=>{
-      this.toastr.warning(res.message);
+      this.toastr.success(res.message);
       this.getUserOperationClaim(this.value, this.companyId);
     }, (err) => {
       this.toastr.error(err.error)
