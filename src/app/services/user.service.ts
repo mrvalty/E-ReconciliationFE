@@ -9,6 +9,7 @@ import { ResponseModel } from '../models/responseModel';
 import { UserForRegisterAccountDto } from '../models/dtos/userForRegisterAccountDto';
 import { OperationClaimForUserListDto } from '../models/dtos/operationClaimForUserListDto';
 import { UserRelationshipDto } from '../models/dtos/userRelationshipDto';
+import { AdminCompaniesForUserDto } from '../models/dtos/adminCompaniesForUserDto';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,16 @@ export class UserService {
 
   getAdminUserList(adminUserId:string):Observable<ListResponseModel<UserRelationshipDto>>{
     let api = this.apiUrl + "users/getAdminUserList?adminUserId=" + adminUserId;
+    return this.httpClient.get<ListResponseModel<UserRelationshipDto>>(api);
+  }
+
+  getAdminCompaniesForUser(adminUserId:string,userUserId:number):Observable<ListResponseModel<AdminCompaniesForUserDto>>{
+    let api = this.apiUrl + "users/getAdminCompaniesForUser?adminUserId=" + adminUserId +"&userUserId=" +userUserId;
+    return this.httpClient.get<ListResponseModel<AdminCompaniesForUserDto>>(api);
+  }
+
+  getUserCompanyList(userId:number):Observable<ListResponseModel<UserRelationshipDto>>{
+    let api = this.apiUrl + "users/getUserCompanyList?userId=" + userId;
     return this.httpClient.get<ListResponseModel<UserRelationshipDto>>(api);
   }
 
@@ -56,6 +67,11 @@ export class UserService {
   updateOperationClaim(operationClaimForUserListDto: OperationClaimForUserListDto):Observable<ResponseModel>{
     let api = this.apiUrl + "users/updateOperationClaim";
     return this.httpClient.post<ResponseModel>(api,operationClaimForUserListDto);
+  }
+
+  deleteUserCompanyId(userId:number,companyId:number):Observable<ResponseModel>{
+    let api = this.apiUrl + "users/deleteUserCompanyId?userId=" + userId +"&companyId=" + companyId;
+    return this.httpClient.get<ResponseModel>(api);
   }
 
 }

@@ -16,6 +16,7 @@ import { UserDto } from '../../models/dtos/userDto';
 import { error } from 'console';
 import { UserForRegisterAccountDto } from '../../models/dtos/userForRegisterAccountDto';
 import { UserRelationshipDto } from '../../models/dtos/userRelationshipDto';
+import { AdminCompaniesForUserDto } from '../../models/dtos/adminCompaniesForUserDto';
 
 @Component({
   selector: 'app-user',
@@ -28,9 +29,11 @@ export class UserComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService();
   userOperationClaims: UserOperationClaimModel[] = [];
   users: UserModel[] = [];
-  userForRegisterToSecondAccountDto:UserForRegisterAccountDto;
-  usersRelationShipDto:UserRelationshipDto[] = [];
-  userRelationShipDto:UserRelationshipDto;
+  userForRegisterToSecondAccountDto: UserForRegisterAccountDto;
+  usersRelationShipDto: UserRelationshipDto[] = [];
+  userRelationShipDto: UserRelationshipDto;
+
+  adminCompaniesForUserDto:AdminCompaniesForUserDto[] =[];
 
   operationAdd = false;
   operationUpdate = false;
@@ -50,9 +53,9 @@ export class UserComponent implements OnInit {
   updatedForm: FormGroup;
   addedForm: FormGroup;
   //NgModel ile verileri almak için değişkenleri tanımlama
-  name: string ="";
-  email: string ="";
-  password: string ="";
+  name: string = "";
+  email: string = "";
+  password: string = "";
 
   userInfo: UserDto = {
     name: "",
@@ -60,7 +63,7 @@ export class UserComponent implements OnInit {
     id: 0,
     isActive: true,
     addedAt: '',
-    password:""
+    password: ""
   };
 
   constructor(
@@ -115,7 +118,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  clearInput(){
+  clearInput() {
     this.name = "";
     this.email = "";
     this.password = "";
@@ -181,7 +184,11 @@ export class UserComponent implements OnInit {
     }
     )
   }
-  getUserCompanyList(userUserId:number){
+  getUserCompanyList(userId: number) {
+    this.userService.getUserCompanyList(userId).subscribe((res) => {
+      this.usersRelationShipDto = res.data
+      this.getAdminCompanyList(this.userId , userId);
+    })
 
   }
   createUpdateForm() {
@@ -190,7 +197,7 @@ export class UserComponent implements OnInit {
       name: ["", Validators.required],
       email: ["", Validators.required],
       isActive: [true],
-      password:["", ]
+      password: ["",]
     });
   }
   createAddForm() {
@@ -212,15 +219,26 @@ export class UserComponent implements OnInit {
   //     this.swal.callToastError(this.validHatasi);
   //   })
   // }
-  changeStatus(id:number){
-    this.swal.callSwal("Durumu Değiştir","Durumu pasif/aktif güncellemek istediğinize emin misiniz?",()=>{
-      this.userService.changeStatus(id).subscribe((res)=>{
-        this.swal.callToast(res.message,'success');
+  changeStatus(id: number) {
+    this.swal.callSwal("Durumu Değiştir", "Durumu pasif/aktif güncellemek istediğinize emin misiniz?", () => {
+      this.userService.changeStatus(id).subscribe((res) => {
+        this.swal.callToast(res.message, 'success');
         this.getUserList();
-      },(err) => {
+      }, (err) => {
         this.swal.callToastError(this.validHatasi);
       })
     });
+  }
+
+  changeStatusUserCompany(userId:number,companyId:number) {
+    this.swal.callSwal("Bağlantıyı Pasife Al", "Şirket ile bağlantıyı pasife almak istiyor musunuz?", () => {
+      this.userService.deleteUserCompanyId(userId,companyId).subscribe((res) => {
+        this.swal.callToast(res.message,'success');
+        this.getUserCompanyList(userId);
+      },(err)=>{
+        this.swal.callToastError(this.validHatasi);
+      })
+    })
   }
 
 
@@ -239,20 +257,20 @@ export class UserComponent implements OnInit {
 
   }
 
-  addUser(){
-    if(this.addedForm.valid){
+  addUser() {
+    if (this.addedForm.valid) {
       let userModel = Object.assign({}, this.addedForm.value);
-      this.userService.register(userModel).subscribe((res)=>{
+      this.userService.register(userModel).subscribe((res) => {
         this.swal.callToast(res.message);
         this.createAddForm();
         this.clearInput();
         this.getUserList();
         document.getElementById("addUserModal").click();
-      },(err)=>{
+      }, (err) => {
         this.toastr.error(err.error);
       })
     }
-    else{
+    else {
       this.toastr.error(this.validHatasi);
     }
   }
@@ -263,5 +281,12 @@ export class UserComponent implements OnInit {
     } else {
       return "input-group input-group-outline is-invalid my-3"
     }
+  }
+
+  getAdminCompanyList(adminUserId:string ,userUserId: number) {
+    this.userService.getAdminCompaniesForUser(adminUserId,userUserId).subscribe((res) => {
+      this.adminCompaniesForUserDto = res.data;
+    })
+
   }
 }

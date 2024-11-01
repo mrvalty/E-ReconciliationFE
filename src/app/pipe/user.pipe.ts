@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { UserModel } from '../models/userModel';
-import { UserRelationshipDto } from '../models/dtos/UserRelationshipDto';
+import { UserRelationshipDto } from '../models/dtos/userRelationshipDto';
 
 @Pipe({
   name: 'userPipes'

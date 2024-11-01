@@ -25,8 +25,9 @@
                 <label class="form-label">Ara</label>
                 <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchString">
               </div>
-              <button *ngIf="operationAdd" type="button" class="btn bg-gradient-info text-xs btn-sm" data-bs-toggle="modal"
-                data-bs-target="#addUserModal"><i class="material-icons opacity-10">add</i>  Kullanıcı
+              <button *ngIf="operationAdd" type="button" class="btn bg-gradient-info text-xs btn-sm"
+                data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="material-icons opacity-10">add</i>
+                Kullanıcı
                 Ekle</button>
 
               <i *ngIf="operationList" class="material-icons opacity-10 excel-icon" title="Excel İndir"
@@ -36,11 +37,16 @@
               <table id="excelTable" class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kullanıcı Adı</th>
-                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">E-Mail</th>
-                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Eklenme Tarihi</th>
-                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Durum</th>
-                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Şirketler</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kullanıcı Adı
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">E-Mail
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Eklenme
+                      Tarihi</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Durum
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Şirketler
+                    </th>
                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">İşlem
                     </th>
                     <th class="text-secondary opacity-7"></th>
@@ -64,26 +70,30 @@
                     <td class="align-middle text-center">
                       <h6 class="text-xs text-secondary mb-0">{{user.userIsActive? "Aktif":"Pasif"}}</h6>
                     </td>
-                    <button type="button" (click)="getUserCompanyList(user.userUserId)"
-                          class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#companiesModal">
-                          Şirketler için Tıklayın
-                        </button>
                     <td class="align-middle text-center">
-                      <a *ngIf="operationUpdate" href="javascript:;" style="margin-right: 3px;" class="btn btn-warning text-xs btn-sm mb-0"
-                        title="Güncelle" data-toggle="tooltip" data-original-title="Edit user"
-                        data-bs-target="#updateUserModal" data-bs-toggle="modal"
+                      <button type="button" (click)="getUserCompanyList(user.userUserId)"
+                        class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#companiesModal">
+                        Şirketler için Tıklayın
+                      </button>
+                    </td>
+                    <td class="align-middle text-center">
+                      <a *ngIf="operationUpdate" href="javascript:;" style="margin-right: 3px;"
+                        class="btn btn-warning text-xs btn-sm mb-0" title="Güncelle" data-toggle="tooltip"
+                        data-original-title="Edit user" data-bs-target="#updateUserModal" data-bs-toggle="modal"
                         (click)="getUser(user.userUserId)">
                         <i class="material-icons opacity-10">edit</i>
                       </a>
-                      <a *ngIf="operationDelete" href="javascript:;" style="margin-right: 3px;" class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip"
-                        data-original-title="Edit user" title="Sil" (click)="changeStatus(user.userUserId)">
+                      <a *ngIf="operationDelete" href="javascript:;" style="margin-right: 3px;"
+                        class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip" data-original-title="Edit user"
+                        title="Sil" (click)="changeStatus(user.userUserId)">
                         <i class="material-icons opacity-10">restore_from_trash</i>
                       </a>
 
-                      <a href="/user-operation-claim/{{user.userMailValue}}" *ngIf="operationUpdate" href="javascript:;" class="btn btn-secondary text-xs btn-sm mb-0" data-toggle="tooltip"
-                      data-original-title="Edit user" title="Yetkiler">
-                      <i class="material-icons opacity-10">checklist</i>
-                    </a>
+                      <a href="/user-operation-claim/{{user.userMailValue}}" *ngIf="operationUpdate" href="javascript:;"
+                        class="btn btn-secondary text-xs btn-sm mb-0" data-toggle="tooltip"
+                        data-original-title="Edit user" title="Yetkiler">
+                        <i class="material-icons opacity-10">checklist</i>
+                      </a>
                     </td>
                   </tr>
                 </tbody>
@@ -153,7 +163,8 @@
             <span class="input-group-text" id="basic-addon2">Şifre</span>
           </div>
           <div class="custom-control custom-checkbox my-3">
-            <input type="checkbox" class="custom-control-input" formControlName="isActive" name="isActive" value="Aktif">
+            <input type="checkbox" class="custom-control-input" formControlName="isActive" name="isActive"
+              value="Aktif">
             <label class="custom-control-label">Aktif</label>
           </div>
         </form>
@@ -169,46 +180,52 @@
 
 <!-- Kullanıcı Şirket Güncelleme Modal -->
 <div class="modal fade" id="companiesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Şirket Listesi</h5>
-      <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <p class="alert alert-warning text-white">* Kullanıcıya şirket listesinden şirket ekleyebilirsiniz</p>
-        <hr>
-        <select class="form-select" >
-          <option value="0">Şirket Seçimi Yapın</option>
-        </select>
-        <hr>
-        <hr>
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Şirket Listesi</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="form-group">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Şirket Adı</th>
-              <th>Adres</th>
-              <th>İşlemler</th>
-            </tr>
-          </thead>
-          <tbody>
-
-          </tbody>
-        </table>
+      <div class="modal-body">
+        <div class="form-group">
+          <p class="alert alert-warning text-white">* Kullanıcıya şirket listesinden şirket ekleyebilirsiniz</p>
+          <hr>
+          <select class="form-select">
+            <option value="0">Şirket Seçimi Yapın</option>
+          </select>
+          <hr>
+        </div>
+        <div class="form-group">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Şirket Adı</th>
+                <th>Adres</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let company of userRelationShipDto?.companies">
+                <td>{{company.name}}</td>
+                <td>{{company.address}}</td>
+                <td><button type="button" (click)="changeStatusUserCompany(userRelationShipDto.userUserId,company.id)"
+                  class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal" data-bs-target="">
+                  Sil
+                </button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn bg-gradient-secondary" id="closeCompanyModal"
-        data-bs-dismiss="modal">Kapat</button>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" id="closeCompanyModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 
