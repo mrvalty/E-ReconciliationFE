@@ -32,8 +32,7 @@ export class UserComponent implements OnInit {
   userForRegisterToSecondAccountDto: UserForRegisterAccountDto;
   usersRelationShipDto: UserRelationshipDto[] = [];
   userRelationShipDto: UserRelationshipDto;
-
-  adminCompaniesForUserDto:AdminCompaniesForUserDto[] =[];
+  adminCompaniesForUserDto: AdminCompaniesForUserDto[] = [];
 
   operationAdd = false;
   operationUpdate = false;
@@ -44,7 +43,7 @@ export class UserComponent implements OnInit {
   isAuthenticated: boolean;
   companyId: string;
   userId: string;
-  title = "Kulanıcı Liste";
+  title = "Kulanıcı Listesi";
   userIsActived: string;
   activeUser: boolean;
   //passiveList: boolean = false;
@@ -56,6 +55,7 @@ export class UserComponent implements OnInit {
   name: string = "";
   email: string = "";
   password: string = "";
+  // role:number;
 
   userInfo: UserDto = {
     name: "",
@@ -65,6 +65,7 @@ export class UserComponent implements OnInit {
     addedAt: '',
     password: ""
   };
+  selectCompany: number = 0;
 
   constructor(
     private authService: AuthService,
@@ -109,10 +110,12 @@ export class UserComponent implements OnInit {
         let companyName = Object.keys(decode).filter((x) => x.endsWith('/ispersistent'))[0];
         let companyId = Object.keys(decode).filter((x) => x.endsWith('/anonymous'))[0];
         let userId = Object.keys(decode).filter((x) => x.endsWith('/nameidentifier'))[0];
+        // let role = Object.keys(decode).filter((x) => x.endsWith('/role'))[0];
         this.companyId = decode[companyId];
         this.userId = decode[userId];
+        // this.role = decode[role];
 
-        console.log(decode);
+        //console.log(decode);
 
       }
     }
@@ -139,7 +142,9 @@ export class UserComponent implements OnInit {
           this.operationList = true;
         }
         if (value.operationClaimId == "33") { this.operationUpdate = true; }
+
         if (value.operationClaimId == "52") { this.operationAdd = true; }
+
         if (value.operationClaimId == "51") { this.operationList = true; }
       })
 
@@ -162,11 +167,15 @@ export class UserComponent implements OnInit {
   getAdminUsersList() {
     this.userService.getAdminUserList(this.userId).subscribe((res) => {
       this.usersRelationShipDto = res.data;
-      console.log(this.usersRelationShipDto);
+      //console.log(this.usersRelationShipDto);
     }, (err) => {
       //this.toastr.error(err.error);
       console.log(err.error);
     })
+  }
+
+  userCompanyAdd(userUserId: number, companyId: number) {
+
   }
 
   getUser(userId: number) {
@@ -186,8 +195,10 @@ export class UserComponent implements OnInit {
   }
   getUserCompanyList(userId: number) {
     this.userService.getUserCompanyList(userId).subscribe((res) => {
-      this.usersRelationShipDto = res.data
-      this.getAdminCompanyList(this.userId , userId);
+      this.usersRelationShipDto = res.data;
+      this.getAdminCompanyList(this.userId, userId);
+    }, (err) => {
+      this.toastr.error(err.message);
     })
 
   }
@@ -230,12 +241,12 @@ export class UserComponent implements OnInit {
     });
   }
 
-  changeStatusUserCompany(userId:number,companyId:number) {
+  changeStatusUserCompany(userId: number, companyId: number) {
     this.swal.callSwal("Bağlantıyı Pasife Al", "Şirket ile bağlantıyı pasife almak istiyor musunuz?", () => {
-      this.userService.deleteUserCompanyId(userId,companyId).subscribe((res) => {
-        this.swal.callToast(res.message,'success');
+      this.userService.deleteUserCompanyId(userId, companyId).subscribe((res) => {
+        this.swal.callToast(res.message, 'success');
         this.getUserCompanyList(userId);
-      },(err)=>{
+      }, (err) => {
         this.swal.callToastError(this.validHatasi);
       })
     })
@@ -245,11 +256,11 @@ export class UserComponent implements OnInit {
   updateUser() {
     if (this.updatedForm.valid) {
       let userModel = Object.assign({}, this.updatedForm.value);
-
       this.userService.update(userModel).subscribe((res) => {
-        document.getElementById("updateUserModal").click();
-        this.getUserList();
+        this.createUpdateForm();
+        this.getAdminUsersList();
         this.swal.callToast(res.message);
+        document.getElementById("updateUserModal").click();
       }, (err) => {
         this.swal.callToastError(this.validHatasi);
       })
@@ -264,7 +275,7 @@ export class UserComponent implements OnInit {
         this.swal.callToast(res.message);
         this.createAddForm();
         this.clearInput();
-        this.getUserList();
+        this.getAdminUsersList();
         document.getElementById("addUserModal").click();
       }, (err) => {
         this.toastr.error(err.error);
@@ -283,9 +294,12 @@ export class UserComponent implements OnInit {
     }
   }
 
-  getAdminCompanyList(adminUserId:string ,userUserId: number) {
-    this.userService.getAdminCompaniesForUser(adminUserId,userUserId).subscribe((res) => {
+  getAdminCompanyList(adminUserId: string, userUserId: number) {
+    this.userService.getAdminCompaniesForUser(adminUserId, userUserId).subscribe((res) => {
       this.adminCompaniesForUserDto = res.data;
+      //console.log(this.adminCompaniesForUserDto);
+    }, (err) => {
+      this.toastr.error(err.message);
     })
 
   }

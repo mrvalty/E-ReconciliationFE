@@ -10,6 +10,7 @@ import { CurrencyAccountComponent } from './components/currency-account/currency
 import { UserComponent } from './components/user/user.component';
 import { UserOperationClaimService } from './services/user-operation-claim.service';
 import { UserOperationClaimComponent } from './components/user/user-operation-claim/user-operation-claim.component';
+import { CompanyComponent } from './components/company/company.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent,canActivate:[loginGuard]},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path:'user-operation-claim',component:UserComponent,canActivate:[loginGuard]},
   {path:'user-operation-claim/:value',component:UserOperationClaimComponent,canActivate:[loginGuard]},
   {path:'login',component:LoginComponent},
+  {path:'company',component:CompanyComponent,canActivate:[loginGuard]},
   {path:'register',component:RegisterComponent},
   {path:'registerConfirm',component:LoginComponent},
   {path:'registerConfirm/:value',component:ConfirmComponent},

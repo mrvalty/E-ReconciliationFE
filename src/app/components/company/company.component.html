@@ -1,0 +1,225 @@
+<aside
+  class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+  id="sidenav-main">
+  <app-sidebar></app-sidebar>
+</aside>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  <app-nav></app-nav>
+  <!-- End Navbar -->
+  <!-- <input type="text" [(ngModel)]="test" #test>
+ böyle yaparsan isim çakışması yaşar ve kırmızı uyarı verir böyle bir şey var diyor. hangi dosyada bilmiyorum -->
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">{{title}}</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="button-container"
+              style="display: flex; justify-content: flex-end; gap: 10px; padding-right: 15px;">
+              <div class="input-group input-group-outline mb-3" style="width: 20%;">
+                <label class="form-label">Ara</label>
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchString">
+              </div>
+              <button *ngIf="operationAdd" type="button" class="btn bg-gradient-info text-xs btn-sm"
+                data-bs-toggle="modal" data-bs-target="#addCompanyModal"><i class="material-icons opacity-10">add</i>
+                Yeni Şirket Ekle</button>
+              <i *ngIf="operationList" class="material-icons opacity-10 excel-icon" title="Excel İndir"
+                style="margin: 10px; color: green;font-size: 25px;" (click)="exportExcel()">description</i>
+            </div>
+            <div class="table-responsive p-0">
+              <table id="excelTable" class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-secondary text-xs font-weight-bolder opacity-7 ps-2">ŞİRKET ADI</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">ŞİRKET ADRESİ</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">VERGİ DAİRESİ</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">VERGİ NUMARASI</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">T.C.</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">KAYIT TARİHİ /
+                      DURUMU</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">İŞLEM</th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let company of companies | companyPipes: searchString">
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{company.name}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="text-xs text-secondary mb-0">{{company.address}}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="text-xs text-secondary mb-0">{{company.taxDepartment}}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="text-xs text-secondary mb-0">{{company.taxIdNumber}}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="text-xs text-secondary mb-0">{{company.identityNumber}}</h6>
+                    </td>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm"><i class=text-danger>Kayıt Tarihi:</i> {{ company.addedAt |
+                            date: 'dd.MM.yyyy' }}</h6>
+                          <h6 class="mb-0 text-sm"><i class=text-danger>Durumu:</i> {{ company.isActive?
+                            "Aktif":"Pasif" }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <a *ngIf="operationUpdate" href="javascript:;" style="margin-right: 3px;"
+                        class="btn btn-warning text-xs btn-sm mb-0" title="Güncelle" data-toggle="tooltip"
+                        data-original-title="Edit user" data-bs-target="#updateCompanyModal" data-bs-toggle="modal">
+                        <i class="material-icons opacity-10" (click)="getCompany(company.id)">edit</i>
+                      </a>
+                      <a *ngIf="operationDelete" href="javascript:;" style="margin-right: 3px;"
+                        class="btn btn-danger text-xs btn-sm mb-0" data-toggle="tooltip" data-original-title="Edit user"
+                        (click)="changeStatusCompany(company)" title="Sil">
+                        <i class="material-icons opacity-10">restore_from_trash</i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Şirket Ekleme Modal -->
+<div class="modal fade" id="addCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalSignTitle">Şirket Ekleme Formu</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="addForm ">
+          <div [class]="changeInputClass(name)">
+            <label class="form-label">Şirket Adı</label>
+            <input type="text" formControlName="name" [(ngModel)]="name" class="form-control">
+          </div>
+          <div [class]="changeInputClass(address)">
+            <label class="form-label">Adres</label>
+            <input type="text" formControlName="address" [(ngModel)]="address" class="form-control">
+          </div>
+          <div [class]="changeInputClass(taxDepartment)">
+            <label class="form-label">Vergi Dairesi</label>
+            <input type="text" formControlName="taxDepartment" [(ngModel)]="taxDepartment" class="form-control">
+          </div>
+          <div [class]="changeInputClass(taxIdNumber)">
+            <label class="form-label">Vergi Numarası</label>
+            <input type="text" formControlName="taxIdNumber" [(ngModel)]="taxIdNumber" class="form-control">
+          </div>
+          <div [class]="changeInputClass(identityNumber)">
+            <label class="form-label">T.C.</label>
+            <input type="text" formControlName="identityNumber" [(ngModel)]="identityNumber" class="form-control">
+          </div>
+        </form>
+
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="add()">Şirket Ekle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeAddModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Şirket Güncelleme Modal -->
+<!-- <div class="modal fade" id="updateCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalSignTitle">Şirket Güncelleme Formu</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="updateForm ">
+          <div [class]="changeInputClass(name)">
+            <label class="form-label">Şirket Adı</label>
+            <input type="text" formControlName="name" [(ngModel)]="name" class="form-control">
+          </div>
+          <div [class]="changeInputClass(address)">
+            <label class="form-label">Adres</label>
+            <input type="text" formControlName="address" [(ngModel)]="address" class="form-control">
+          </div>
+          <div [class]="changeInputClass(taxDepartment)">
+            <label class="form-label">Vergi Dairesi</label>
+            <input type="text" formControlName="taxDepartment" [(ngModel)]="taxDepartment" class="form-control">
+          </div>
+          <div [class]="changeInputClass(taxIdNumber)">
+            <label class="form-label">Vergi Numarası</label>
+            <input type="text" formControlName="taxIdNumber" [(ngModel)]="taxIdNumber" class="form-control">
+          </div>
+          <div [class]="changeInputClass(identityNumber)">
+            <label class="form-label">T.C.</label>
+            <input type="text" formControlName="identityNumber" [(ngModel)]="identityNumber" class="form-control">
+          </div>
+        </form>
+
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="update()">Şirket Ekle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeUpdateModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="updateCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Şirket Güncelleme Formu</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="updateForm" role="form text-left">
+          <div class="input-group input-group-dynamic mb-4">
+            <span class="input-group-text" id="basic-addon1">Şirket Adı</span>
+            <input type="text" formControlName="name" class="form-control" placeholder="Şirket Adı">
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="address" placeholder="Adres">
+            <span class="input-group-text" id="basic-addon2">Adres</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="taxDepartment" placeholder="Vergi Dairesi">
+            <span class="input-group-text" id="basic-addon2">Vergi Dairesi</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="taxIdNumber" placeholder="Vergi Numarası">
+            <span class="input-group-text" id="basic-addon2">Vergi Numarası</span>
+          </div>
+          <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" formControlName="identityNumber" placeholder="T.C.">
+            <span class="input-group-text" id="basic-addon2">T.C.</span>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer" style="display: flex;">
+        <button type="button" class="btn bg-gradient-primary" (click)="update()">Şirket Güncelle</button>
+        <button type="button" class="btn bg-gradient-secondary" id="closeUpdateModal"
+          data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>

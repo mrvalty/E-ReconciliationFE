@@ -27,13 +27,11 @@
               </div>
               <button *ngIf="operationAdd" type="button" class="btn bg-gradient-info text-xs btn-sm"
                 data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="material-icons opacity-10">add</i>
-                Kullanıcı
-                Ekle</button>
-
+                Kullanıcı Ekle</button>
               <i *ngIf="operationList" class="material-icons opacity-10 excel-icon" title="Excel İndir"
                 style="margin: 10px; color: green;font-size: 25px;" (click)="exportExcel()">description</i>
             </div>
-            <div class="table-responsive p-0">
+            <div class="table-responsive p-0" *ngIf="operationList">
               <table id="excelTable" class="table align-items-center mb-0">
                 <thead>
                   <tr>
@@ -62,7 +60,7 @@
                       </div>
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <span class="text-secondary text-xs font-weight-bold">{{user.userUserName}}</span>
+                      <span class="text-secondary text-xs font-weight-bold">{{user.userMail}}</span>
                     </td>
                     <td class="align-middle text-center">
                       <h6 class="text-xs text-secondary mb-0">{{user.userAddedAt | date:'dd-MM-yyyy'}}</h6>
@@ -193,9 +191,14 @@
         <div class="form-group">
           <p class="alert alert-warning text-white">* Kullanıcıya şirket listesinden şirket ekleyebilirsiniz</p>
           <hr>
-          <select class="form-select">
-            <option value="0">Şirket Seçimi Yapın</option>
-          </select>
+
+          <select class="form-select" [(ngModel)]="selectCompany">
+              <option value="0">Şirket Seçimi Yapın</option>
+              <option *ngFor="let adminCompany of adminCompaniesForUserDto" [value]=adminCompany.id>{{ adminCompany.name}}</option>
+            </select>
+          <hr>
+          <hr>
+          <button type="button" class="btn bg-gradient-primary">Şirket Ekle</button>
           <hr>
         </div>
         <div class="form-group">
@@ -207,14 +210,14 @@
                 <th>İşlemler</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let company of userRelationShipDto?.companies">
+            <tbody *ngIf="userRelationShipDto?.companies && userRelationShipDto.companies.length > 0">
+              <tr *ngFor="let company of userRelationShipDto.companies">
                 <td>{{company.name}}</td>
                 <td>{{company.address}}</td>
                 <td><button type="button" (click)="changeStatusUserCompany(userRelationShipDto.userUserId,company.id)"
-                  class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal" data-bs-target="">
-                  Sil
-                </button></td>
+                    class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal" data-bs-target="">
+                    Sil
+                  </button></td>
               </tr>
             </tbody>
           </table>

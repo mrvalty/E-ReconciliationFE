@@ -25,6 +25,8 @@ import { UserComponent } from './components/user/user.component';
 import { UserPipe } from './pipe/user.pipe';
 import { UserOperationClaimComponent } from './components/user/user-operation-claim/user-operation-claim.component';
 import { UserOperationClaimPipe } from './pipe/user-operation-claim.pipe';
+import { CompanyComponent } from './components/company/company.component';
+import { CompanyPipe } from './pipe/company.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { UserOperationClaimPipe } from './pipe/user-operation-claim.pipe';
     UserPipe,
     UserOperationClaimComponent,
     UserOperationClaimPipe,
+    CompanyComponent,
+    CompanyPipe,
   ],
   imports: [
     BrowserModule,

@@ -15,7 +15,7 @@ export class SwalService {
       text:text,
       icon:'question',
       showConfirmButton:true,
-      confirmButtonText:"Sil",
+      confirmButtonText:"Kaydet",
       showCancelButton:true,
       cancelButtonText:"İptal"
     }).then(res=>{

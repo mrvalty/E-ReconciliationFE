@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit {
 
 
   register() {
-    console.log(this.termsandConditionCheck);
+    //console.log(this.termsandConditionCheck);
     if (this.termsandConditionCheck) {
       if (this.registerForm.valid) {
         this.isRegisterActiveButton = false;
@@ -113,7 +113,7 @@ export class RegisterComponent implements OnInit {
           this.toastr.error(err.error);
 
         });
-        console.log(this.registerDto);
+        //console.log(this.registerDto);
       }
       else {
         this.toastr.error(this.validHatasi);
